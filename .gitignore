@@ -1,0 +1,35 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+spend-manager-mobile-app/node_modules/
+
+# Expo
+spend-manager-mobile-app/.expo
+spend-manager-mobile-app/dist/
+spend-manager-mobile-app/web-build/
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+spend-manager-mobile-app/.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+spend-manager-mobile-app/.DS_Store
+spend-manager-mobile-app/*.pem
+
+# local env files
+spend-manager-mobile-app/.env*.local
+
+# typescript
+spend-manager-mobile-app/*.tsbuildinfo
