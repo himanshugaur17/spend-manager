@@ -1,0 +1,7 @@
+{
+  "platforms": ["tvos", "android", "web"],
+  
+  "android": {
+    "modules": ["expo.modules.androidsmsmanager.AndroidSmsManagerModule"]
+  }
+}

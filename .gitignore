@@ -9,6 +9,8 @@ spend-manager-mobile-app/dist/
 spend-manager-mobile-app/web-build/
 
 # Native
+spend-manager-mobile-app/android
+spend-manager-mobile-app/ios
 *.orig.*
 *.jks
 *.p8
