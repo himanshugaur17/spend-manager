@@ -1,12 +1,18 @@
 package expo.modules.androidsmsmanager
 
+import com.android.Manifest
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.interfaces.permissions.Permissions
+import expo.modules.kotlin.Promise
+import expo.modules.kotlin.exception.Exceptions
 
 class AndroidSmsManagerModule : Module() {
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
+  private val permissionsManager: Permissions
+    get() = appContext.permissions ?: throw Exceptions.PermissionsModuleNotFound()
   override fun definition() = ModuleDefinition {
     // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
     // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
@@ -44,4 +50,12 @@ class AndroidSmsManagerModule : Module() {
       }
     }
   }
+
+  AsyncFunction("requestPermissionsAsync") { promise: Promise ->
+        Permissions.askForPermissionsWithPermissionsManager(permissionsManager, promise, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+    }
+
+  AsyncFunction("getPermissionsAsync") { promise: Promise ->
+        Permissions.getPermissionsWithPermissionsManager(permissionsManager, promise, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+    }
 }
