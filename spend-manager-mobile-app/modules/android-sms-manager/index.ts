@@ -34,11 +34,11 @@ export function addChangeListener(
   return emitter.addListener<ChangeEventPayload>("onChange", listener);
 }
 
-export async function requestPermissionsAsync(promise: Promise<any>) {
+export async function requestPermissionsAsync(): Promise<any> {
   return await AndroidSmsManagerModule.requestPermissionsAsync();
 }
 
-export async function getPermissionsAsync(promise: Promise<any>) {
+export async function getPermissionsAsync(): Promise<any> {
   return await AndroidSmsManagerModule.getPermissionsAsync();
 }
 
