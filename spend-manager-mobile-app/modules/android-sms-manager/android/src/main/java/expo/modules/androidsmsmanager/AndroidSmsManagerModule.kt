@@ -1,6 +1,7 @@
 package expo.modules.androidsmsmanager
 
 import android.Manifest
+import android.net.Uri
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.interfaces.permissions.Permissions
@@ -60,7 +61,19 @@ class AndroidSmsManagerModule : Module() {
 
     AsyncFunction("getSmsAsync"){promise: Promise->
       ensureReadPermission()
-      var smsList= ArrayList<SmsInfo>()
+      val smsList= ArrayList<SmsInfo>()
+      val smsUri=Uri.parse("content://sms/inbox")
+      val cursor=appContext.currentActivity?.contentResolver?.query(smsUri,arrayOf("_id", "address", "date", "body"), null, null, null)
+      cursor?.moveToFirst()
+      while(cursor?.moveToNext()==true){
+        val id=cursor.getString(0)
+        val receivedFrom=cursor.getString(1)
+        val date=cursor.getString(2)
+        val body =cursor.getString(3)
+        val sms=SmsInfo(id,receivedFrom,date,body)
+        smsList.add(sms)
+      }
+      cursor?.close()
     }
 
 
