@@ -1,6 +1,6 @@
 package expo.modules.androidsmsmanager
 
-import com.android.Manifest
+import android.Manifest
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.interfaces.permissions.Permissions
@@ -21,7 +21,7 @@ class AndroidSmsManagerModule : Module() {
 
     // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants(
-      "PI" to Math.PI
+            "PI" to Math.PI
     )
 
     // Defines event names that the module can send to JavaScript.
@@ -37,7 +37,7 @@ class AndroidSmsManagerModule : Module() {
     AsyncFunction("setValueAsync") { value: String ->
       // Send an event to JavaScript.
       sendEvent("onChange", mapOf(
-        "value" to value
+              "value" to value
       ))
     }
 
@@ -49,13 +49,26 @@ class AndroidSmsManagerModule : Module() {
         println(prop)
       }
     }
+
+    AsyncFunction("requestPermissionsAsync") { promise: Promise ->
+      Permissions.askForPermissionsWithPermissionsManager(permissionsManager, promise, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+    }
+
+    AsyncFunction("getPermissionsAsync") { promise: Promise ->
+      Permissions.getPermissionsWithPermissionsManager(permissionsManager, promise, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+    }
+
+    AsyncFunction("getSmsAsync"){promise: Promise->
+      ensureReadPermission()
+      var smsList= ArrayList<SmsInfo>()
+    }
+
+
   }
-
-  AsyncFunction("requestPermissionsAsync") { promise: Promise ->
-        Permissions.askForPermissionsWithPermissionsManager(permissionsManager, promise, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+  private fun ensureReadPermission() {
+    val hasPermission = permissionsManager.hasGrantedPermissions(Manifest.permission.READ_SMS)
+    if (!hasPermission) {
+      throw Exceptions.MissingPermissions(Manifest.permission.READ_SMS)
     }
-
-  AsyncFunction("getPermissionsAsync") { promise: Promise ->
-        Permissions.getPermissionsWithPermissionsManager(permissionsManager, promise, Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
-    }
+  }
 }
