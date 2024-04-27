@@ -2,9 +2,17 @@ import { StatusBar } from "expo-status-bar";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { hello, requestPermissionsAsync } from "./modules/android-sms-manager";
 export default function App() {
-  const permPromise = requestPermissionsAsync().then((value) => {
-    Alert.alert("perm granted");
-  });
+  const permPromise = new Promise(
+    (value) => {
+      Alert.alert("perm granted");
+      console.log(value);
+    },
+    (reason) => {
+      Alert.alert("perm NOT granted");
+      console.log(reason);
+    }
+  );
+  requestPermissionsAsync(permPromise);
   return (
     <View style={styles.container}>
       <Text>{hello()} yes, it's native</Text>

@@ -16,7 +16,7 @@ class AndroidSmsManagerModule : Module() {
     private val permissionsManager: Permissions
         get() = appContext.permissions ?: throw Exceptions.PermissionsModuleNotFound()
 
-    override fun definition() = ModuleDefinition {
+    override fun definition(): Any = ModuleDefinition {
         // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
         // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
         // The module will be accessible from `requireNativeModule('AndroidSmsManager')` in JavaScript.
@@ -79,6 +79,7 @@ class AndroidSmsManagerModule : Module() {
                 smsList.add(sms)
             }
             cursor?.close()
+            return@AsyncFunction smsList
         }
 
 

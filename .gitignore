@@ -35,3 +35,6 @@ spend-manager-mobile-app/.env*.local
 
 # typescript
 spend-manager-mobile-app/*.tsbuildinfo
+#android studio
+spend-manager-mobile-app/android
+spend-manager-mobile-app/modules/android-sms-manager/android/build/*
