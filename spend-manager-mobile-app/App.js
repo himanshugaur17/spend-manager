@@ -1,21 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import { Alert, StyleSheet, Text, View } from "react-native";
-import { hello, requestPermissionsAsync } from "./modules/android-sms-manager";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { requestPermissionsAsync } from "./modules/android-sms-manager";
 export default function App() {
-  const permPromise = new Promise(
-    (value) => {
-      Alert.alert("perm granted");
-      console.log(value);
-    },
-    (reason) => {
-      Alert.alert("perm NOT granted");
-      console.log(reason);
-    }
-  );
-  requestPermissionsAsync(permPromise);
+  const [permState, setPermState] = useState(null);
+  requestPermissionsAsync().then((value) => {
+    if (value && value.status === "granted")
+      setPermState("Thanks for granting the permission");
+    else setPermState("We are nothing without read sms permission");
+  });
   return (
     <View style={styles.container}>
-      <Text>{hello()} yes, it's native</Text>
+      <Text>{permState}</Text>
       <StatusBar style="auto" />
     </View>
   );

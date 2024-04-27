@@ -35,11 +35,11 @@ export function addChangeListener(
 }
 
 export async function requestPermissionsAsync(promise: Promise<any>) {
-  return await AndroidSmsManagerModule.requestPermissionsAsync(promise);
+  return await AndroidSmsManagerModule.requestPermissionsAsync();
 }
 
 export async function getPermissionsAsync(promise: Promise<any>) {
-  await AndroidSmsManagerModule.getPermissionsAsync(promise);
+  return await AndroidSmsManagerModule.getPermissionsAsync();
 }
 
 export {
