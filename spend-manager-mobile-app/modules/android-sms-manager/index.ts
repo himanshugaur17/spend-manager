@@ -34,13 +34,6 @@ export function addChangeListener(
   return emitter.addListener<ChangeEventPayload>("onChange", listener);
 }
 
-export async function requestPermissionsAsync(promise: Promise<any>) {
-  return await AndroidSmsManagerModule.requestPermissionsAsync();
-}
-
-export async function getPermissionsAsync(promise: Promise<any>) {
-  return await AndroidSmsManagerModule.getPermissionsAsync();
-}
 
 export {
   AndroidSmsManagerView,
