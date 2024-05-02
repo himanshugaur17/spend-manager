@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
-apply plugin: 'kotlin-parcelize'
-
 group = 'expo.modules.androidsmsmanager'
 version = '0.5.0'
 
@@ -80,6 +78,9 @@ android {
     singleVariant("release") {
       withSourcesJar()
     }
+  }
+  buildFeatures{
+    viewBinding=true
   }
 }
 

@@ -75,13 +75,31 @@ class AndroidSmsManagerModule : Module() {
             }
             cursor?.close()
             val smsBundle = Bundle().apply {
-                putParcelableArrayList("data", smsList)
+                putParcelableArrayList("data", convertSmsListToBundleArray(smsList))
                 putBoolean("success", true)
             }
             promise.resolve(smsBundle)
         }
 
+    }
 
+    private fun smsInfoToBundle(smsInfo: SmsInfo): Bundle {
+        return Bundle().apply {
+            putString("key", smsInfo.id)
+            putString("id", smsInfo.id)
+            putString("from", smsInfo.from)
+            putString("date", smsInfo.date)
+            putString("subject", smsInfo.subject)
+            putString("body", smsInfo.body)
+        }
+    }
+
+    private fun convertSmsListToBundleArray(smsList: List<SmsInfo>): ArrayList<Bundle> {
+        val bundles = ArrayList<Bundle>()
+        smsList.forEach { smsInfo ->
+            bundles.add(smsInfoToBundle(smsInfo))
+        }
+        return bundles
     }
 
     private fun ensureReadPermission() {

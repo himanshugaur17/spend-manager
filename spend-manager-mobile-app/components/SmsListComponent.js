@@ -8,7 +8,7 @@ export default function SmsListComponent({ permGranted }) {
       getSmsAsync().then(
         (value) => {
           console.log(`sms list: ${value.data}`);
-          setSmsList(value);
+          setSmsList(value.data);
         },
         (reason) => {
           console.log(`rejected inner: ${reason}`);
@@ -20,7 +20,7 @@ export default function SmsListComponent({ permGranted }) {
       <Text>SmsListComponent</Text>
       {smsList
         ? smsList.map((sms) => (
-            <View>
+            <View key={sms.id}>
               <Text>
                 {sms.from} : {sms.body} : {sms.body}
               </Text>
