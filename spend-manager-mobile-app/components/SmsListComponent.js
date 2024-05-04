@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { getSmsAsync } from "../modules/android-sms-manager/src/message/message";
+import { upiTxnParser } from "../utils/messageParser";
 export default function SmsListComponent({ permGranted }) {
-  const [smsList, setSmsList] = useState(null);
+  const [upiTxns, setUpiTxns] = useState(null);
   useEffect(() => {
     if (permGranted)
-      getSmsAsync().then(
-        (value) => {
-          console.log(`sms list: ${JSON.stringify(value.data)}`);
-          setSmsList(value.data);
-        },
-        (reason) => {
-          console.log(`rejected inner: ${reason}`);
-        }
-      );
+      getSmsAsync().then((value) => {
+        var smsList = value.data;
+        var upiTxns = smsList.map((sms) => upiTxnParser(sms));
+        setUpiTxns(upiTxns);
+      });
   }, [permGranted]);
   return (
     <View>
-      <Text>SmsListComponent</Text>
-      {smsList
-        ? smsList.map((sms) => (
-            <View key={sms.id}>
+      <Text>TxnsList</Text>
+      {upiTxns
+        ? upiTxns.map((upiTxn) => (
+            <View key={upiTxn.refNumber}>
               <Text>
-                {sms.id} : {sms.from} : {sms.body}
+                {upiTxn.refNumber} : {upiTxn.date} : {upiTxn.merchant} :{" "}
+                {upiTxn.amount}
               </Text>
             </View>
           ))

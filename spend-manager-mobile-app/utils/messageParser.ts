@@ -18,3 +18,4 @@ function upiTxnParser(sms: SmsInfo): TxnInfo {
     refNo: upiTxnInfo["refNumber"],
   };
 }
+export { upiTxnParser };
