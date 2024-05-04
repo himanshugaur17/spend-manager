@@ -7,7 +7,7 @@ export default function SmsListComponent({ permGranted }) {
     if (permGranted)
       getSmsAsync().then(
         (value) => {
-          console.log(`sms list: ${value.data}`);
+          console.log(`sms list: ${JSON.stringify(value.data)}`);
           setSmsList(value.data);
         },
         (reason) => {
@@ -22,7 +22,7 @@ export default function SmsListComponent({ permGranted }) {
         ? smsList.map((sms) => (
             <View key={sms.id}>
               <Text>
-                {sms.from} : {sms.body} : {sms.body}
+                {sms.id} : {sms.from} : {sms.body}
               </Text>
             </View>
           ))

@@ -1,6 +1,7 @@
 package expo.modules.androidsmsmanager
 
 import android.Manifest
+import android.database.Cursor
 import android.os.Bundle
 import android.provider.Telephony
 import expo.modules.interfaces.permissions.Permissions
@@ -65,13 +66,7 @@ class AndroidSmsManagerModule : Module() {
             cursor?.moveToFirst()
             val maxMessageToIterate = 10
             while (cursor?.moveToNext() == true && smsList.size < maxMessageToIterate) {
-                val id = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms._ID))
-                val receivedFrom = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.CREATOR))
-                val date = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.DATE))
-                val subject = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SUBJECT))
-                val body = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.BODY))
-                val sms = SmsInfo(id, receivedFrom, date, subject, body)
-                smsList.add(sms)
+                addSmsToSmsList(cursor, smsList)
             }
             cursor?.close()
             val smsBundle = Bundle().apply {
@@ -83,9 +78,18 @@ class AndroidSmsManagerModule : Module() {
 
     }
 
+    private fun addSmsToSmsList(cursor: Cursor, smsList: ArrayList<SmsInfo>) {
+        val id = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms._ID))
+        val receivedFrom = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
+        val date = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.DATE))
+        val subject = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SUBJECT))
+        val body = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.BODY))
+        val sms = SmsInfo(id, receivedFrom, date, subject, body)
+        smsList.add(sms)
+    }
+
     private fun smsInfoToBundle(smsInfo: SmsInfo): Bundle {
         return Bundle().apply {
-            putString("key", smsInfo.id)
             putString("id", smsInfo.id)
             putString("from", smsInfo.from)
             putString("date", smsInfo.date)
