@@ -62,7 +62,8 @@ class AndroidSmsManagerModule : Module() {
             ensureReadPermission()
             val smsList = ArrayList<SmsInfo>()
             val contentResolver = appContext.currentActivity?.contentResolver
-            val cursor = contentResolver?.query(Telephony.Sms.Inbox.CONTENT_URI, null, null, null, null)
+            val whereClauseForUpi = "${Telephony.Sms.ADDRESS} LIKE '%SBIUPI'"
+            val cursor = contentResolver?.query(Telephony.Sms.Inbox.CONTENT_URI, null, whereClauseForUpi, null, null)
             cursor?.moveToFirst()
             val maxMessageToIterate = 10
             while (cursor?.moveToNext() == true && smsList.size < maxMessageToIterate) {

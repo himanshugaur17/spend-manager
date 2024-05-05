@@ -8,7 +8,9 @@ export default function SmsListComponent({ permGranted }) {
     if (permGranted)
       getSmsAsync().then((value) => {
         var smsList = value.data;
-        var upiTxns = smsList.map((sms) => upiTxnParser(sms));
+        var upiTxns = smsList
+          .map((sms) => upiTxnParser(sms))
+          .filter((upitTxn) => upitTxn);
         setUpiTxns(upiTxns);
       });
   }, [permGranted]);
