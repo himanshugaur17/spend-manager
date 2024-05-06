@@ -40,5 +40,3 @@ export const generateDummyData = () =>
     category: categories[getRandomInt(0, categories.length - 1)],
     refNo: generateRefNo(7),
   }));
-
-export { generateDummyData };

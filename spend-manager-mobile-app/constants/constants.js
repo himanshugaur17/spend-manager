@@ -12,3 +12,27 @@ const senders = [
     metadata: ["debited by XXX on date Date trf to MERCHANTYYY Refno REFZZZ"],
   },
 ];
+export default CONSTANTS = {
+  COLORS: {
+    green: "#2bfd9c",
+    grey: "#f8f8f8",
+    white: "white",
+    errorMessage: "#fff",
+  },
+  SIZES: {
+    h1: 25,
+    h2: 17,
+    smallText: 11,
+  },
+  MARGIN: {
+    l2: 15,
+  },
+  PADDING: {
+    vertical: 10,
+    horizontal: 10,
+  },
+  BORDER: {
+    radius: 30,
+    width: 5,
+  },
+};

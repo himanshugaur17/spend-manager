@@ -1,20 +1,24 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Pie, PolarChart } from "victory-native";
+import constants from "../constants/constants";
 import { generateDummyData } from "../utils/dummyDataGen";
+import { groupBy, reduceForPieChart } from "../utils/utils";
+var count = 1;
 export default function TxnPieChartComponent() {
-  const txnList = generateDummyData().map((txn) => {
-    return { ...txn, value: txn.amount, label: };
-  });
+  const txnsByMerchant = groupBy("merchant", generateDummyData());
+  const expenditureByMerchant = reduceForPieChart(txnsByMerchant, "amount");
+  console.log(`count: ${count++}----${expenditureByMerchant}`);
   return (
     <View style={styles.pieChartContainer}>
+      <Text style={styles.heading}>Expenditure By Merchant</Text>
       <PolarChart
         labelKey={"label"}
         valueKey={"value"}
         colorKey={"color"}
-        data={txnList}
+        data={expenditureByMerchant}
       >
-        <Pie />
+        <Pie.Chart />
       </PolarChart>
     </View>
   );
@@ -22,6 +26,12 @@ export default function TxnPieChartComponent() {
 const styles = StyleSheet.create({
   pieChartContainer: {
     flex: 1,
-    backgroundColor: "grey",
+    width: 300,
+    alignItems: "center",
+  },
+  heading: {
+    fontSize: constants.SIZES.h2,
+    fontWeight: "bold",
+    paddingTop: 50,
   },
 });

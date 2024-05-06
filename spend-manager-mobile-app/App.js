@@ -1,7 +1,6 @@
-import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import SmsListComponent from "./components/SmsListComponent";
+import { StyleSheet, View } from "react-native";
+import TxnPieChartComponent from "./components/TxnPieChartComponent";
 import { requestPermissionsAsync } from "./modules/android-sms-manager/src/message/message";
 export default function App() {
   const [permState, setPermState] = useState(null);
@@ -14,9 +13,10 @@ export default function App() {
   });
   return (
     <View style={styles.container}>
-      <Text>{permState}</Text>
+      <TxnPieChartComponent />
+      {/* <Text>{permState}</Text>
       <SmsListComponent permGranted={permGranted} />
-      <StatusBar style="auto" />
+      <StatusBar style="auto" /> */}
     </View>
   );
 }
